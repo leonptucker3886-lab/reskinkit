@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ReskinKit · Worklog Board</title><link rel="stylesheet" href="themes.css">
+<script>const q=new URLSearchParams(location.search).get('theme');document.documentElement.dataset.theme=q||localStorage.getItem('rk-theme')||'midnight'</script></head><body>
+<div class="beta">BETA · ReskinKit v0.1</div>
+<header><h1>Worklog Board</h1><label>Theme <select id="t"><option value="midnight">Midnight</option><option value="paper">Paper</option><option value="neon">Neon</option><option value="forest">Forest</option></select></label></header>
+<main><form id="f"><input id="who" placeholder="Who" required><input id="what" placeholder="What shipped" required><button>Log</button></form><div class="grid" id="g"></div></main>
+<script>
+const t=document.getElementById('t'),q=new URLSearchParams(location.search).get('theme');t.value=document.documentElement.dataset.theme;
+t.onchange=()=>{document.documentElement.dataset.theme=t.value;if(!q)localStorage.setItem('rk-theme',t.value)};
+let L=JSON.parse(localStorage.getItem('rk-log')||'null')||[{who:'SGT Matu May',what:'SquadPulse v0.1',at:'2026-10-31'},{who:'CPL Nolin Peter',what:'BlockWatch v0.1',at:'2026-10-31'},{who:'SGT Matu May',what:'SkillPath v0.1',at:'2026-10-30'}];
+const g=document.getElementById('g');function r(){g.innerHTML=L.map(e=>`<div class="card"><b>${e.what.replace(/</g,'&lt;')}</b><div>${e.who.replace(/</g,'&lt;')}</div><small>${e.at}</small></div>`).join('')}r();
+document.getElementById('f').onsubmit=e=>{e.preventDefault();L.unshift({who:who.value,what:what.value,at:new Date().toISOString().slice(0,10)});localStorage.setItem('rk-log',JSON.stringify(L));e.target.reset();r()};
+</script></body></html>
